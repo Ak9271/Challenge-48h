@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - BDD Ynov</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>Connexion à l'association BDD</header>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="actualite.html">Actualités</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Compte</a>
+    </nav>
+
+    <div class="container">
+        <h2>Connexion</h2>
+        <form id="formaulaire-connexion">
+            <input type="email" id="email-connexion" placeholder="Email" required>
+            <input type="mdp" id="mdp-connexion" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p id="login-message"></p>
+
+        <h2>Inscription</h2>
+        <form id="formulaire-inscription">
+            <input type="nom" id="nom-inscription" placeholder="Nom" required>
+            <input type="email" id="email-inscription" placeholder="Email" required>
+            <input type="mdp" id="mdp-inscription" placeholder="Mot de passe" required>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <p id="register-message"></p>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
+ 
