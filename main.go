@@ -98,4 +98,28 @@ func soumettreSignupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func soumettreLoginHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		email := r.FormValue("email")
+		mdp := r.FormValue("mdp")
+
+		var user InfoUser
+		row := db.QueryRow("SELECT id, nom, email, mdp FROM users WHERE email = ?", email).Scan(&user.ID, &user.Nom, &user.Email, &user.Mdp)
+		err := row.Scan(&user.ID, &user.Nom, &user.Email, &user.Mdp)
+		if err != nil {
+			http.Error(w, "Utilisateur introuvable", http.StatusUnauthorized)
+			return
+		}
+		err = bcrypt.CompareHashAndPassword([]byte(user.Mdp), []byte(mdp))
+		if err != nil {
+			http.Error(w, "Mot de passe incorrect", http.StatusUnauthorized)
+			return
+		}
+		fmt.Fprintf(w, "Bienvenue %s", user.Nom)
+
+	} else {
+		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+	}
+}
 
