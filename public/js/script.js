@@ -30,3 +30,34 @@ loginForm.addEventListener('submit', function(e) {
         MsgConnexion.textContent = 'Erreur de connexion';
     });
 });
+
+registerForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nom = document.getElementById('nom-inscription').value;
+    const email = document.getElementById('email-inscription').value;
+    const mdp = document.getElementById('mdp-inscription').value;
+    const infos = new URLSearchParams();
+    infos.append('nom', nom);
+    infos.append('email', email);
+    infos.append('mdp', mdp);
+
+    fetch('/inscription', {
+        method: 'POST',
+        header: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: infos,
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === 'Inscription réussie') {
+            MsgInscription.textContent = 'Inscription réussie';
+        } else {
+            MsgInscription.textContent = 'Erreur lors de l\'inscription';
+        }
+    })
+    .catch(error => {
+        MsgInscription.textContent = 'Erreur de l\'inscription';
+    });
+});
