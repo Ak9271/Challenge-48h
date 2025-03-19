@@ -45,6 +45,15 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/signup", signupHandler)
+	http.HandleFunc("/soumettre-signup", soumettreSignupHandler)
+	http.HandleFunc("/soumettre-login", soumettreLoginHandler)
+
+	log.Println("Serveur démarré sur : http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
