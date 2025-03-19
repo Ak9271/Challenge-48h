@@ -9,3 +9,39 @@ import (
 	"os"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type InfoUser struct {
+	ID int
+	Nom string
+	Email string
+	Mdp string
+}
+
+var db *sql.DB
+
+func creerDB() {
+	database, err := sql.Open("sqlite", "./database.db")
+	if err != nil {
+		return nil, err
+	}
+
+	creerDB := `CREATE TABLE IF NOT EXISTS users (
+		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		"nom" TEXT,
+		"email" TEXT,
+		"mdp" TEXT
+	);`
+	_, err = database.Exec(creerDB)
+	if err != nil {
+		return nil, err
+	}
+	return database, nil
+}
+
+func main() {
+	db, err := creerDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+}
