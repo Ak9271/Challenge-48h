@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"log"
 	"database/sql"
-	"github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"
 	)
 
-func creerBaseDonnee() *sql.DB {
+func CreerBaseDonnee() *sql.DB {
 	baseDonnee, err := sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		log.Fatal(err)
@@ -35,7 +35,7 @@ func creerBaseDonnee() *sql.DB {
 	return baseDonnee
 }
 
-func enregistrerUser(baseDonnee *sql.DB, email string, mdp string) {
+func EnregistrerUser(baseDonnee *sql.DB, email string, mdp string) bool {
 	_, err := baseDonnee.Exec("INSERT INTO users (email, mdp) VALUES (?, ?)", email, mdp)
 	if err != nil {
 		return false
@@ -43,12 +43,27 @@ func enregistrerUser(baseDonnee *sql.DB, email string, mdp string) {
 	return true
 }
 
-func connexionUser (baseDonnee *sql.DB, email string, mdp string) {
-	rows, err := baseDonnee.Query("SELECT * FROM users WHERE email = ? AND mdp = ?", email, mdp)
+func ConnexionUser (baseDonnee *sql.DB, email string, mdp string) bool {
+	err := baseDonnee.QueryRow("SELECT * FROM users WHERE email = ? AND mdp = ?", email, mdp).Scan(&email, &mdp)
 	if err != nil {
 		return false
 	}
 	return true
 }
 
+func AjoutEvent (baseDonnee *sql.DB, titre string, date string, description string) bool {
+	_, err := baseDonnee.Exec("INSERT INTO evenement (titre, date, description) VALUES (?, ?, ?)", titre, date, description)
+	if err != nil {
+		return false
+	}
+	return true
+}
 
+func main() {
+	db := CreerBaseDonnee()
+	defer db.Close()
+
+	http.HandleFunc("/", GestionRoutes(db))
+	fmt.Println("Serveur Go sur http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
+}
