@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - BDD Ynov</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>Contactez-nous</header>
+    <nav>
+        <a href="accueil.html">Accueil</a>
+        <a href="actualite.html">Actualités</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Compte</a>
+    </nav>
+
+    <div class="container">
+        <h2>Formulaire de contact</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="Nom" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <textarea id="message" placeholder="Votre message" required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+        <p id="response-message"></p>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
