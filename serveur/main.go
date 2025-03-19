@@ -35,28 +35,40 @@ func CreerBaseDonnee() *sql.DB {
 	return baseDonnee
 }
 
-func EnregistrerUser(baseDonnee *sql.DB, email string, mdp string) bool {
-	_, err := baseDonnee.Exec("INSERT INTO users (email, mdp) VALUES (?, ?)", email, mdp)
-	if err != nil {
-		return false
-	}
-	return true
-}
+func GestionRoutes(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case "/inscription":
+			if r.Method == "POST" {
+				nom := r.FormValue("nom")
+				email := r.FormValue("email")
+				mdp := r.FormValue("mdp")
+				_, err := db.Exec("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", name, email, password)
+				if err != nil {
+					http.Error(w, "Erreur d'inscription", http.StatusInternalServerError)
+					return
+				}
 
-func ConnexionUser (baseDonnee *sql.DB, email string, mdp string) bool {
-	err := baseDonnee.QueryRow("SELECT * FROM users WHERE email = ? AND mdp = ?", email, mdp).Scan(&email, &mdp)
-	if err != nil {
-		return false
-	}
-	return true
-}
+				w.Write([]byte("Inscription réussie"))
+			}
+		case "/connexion":
+			if r.Method == "POST" {
+				email := r.FormValue("email")
+				mdp := r.FormValue("mdp")
 
-func AjoutEvent (baseDonnee *sql.DB, titre string, date string, description string) bool {
-	_, err := baseDonnee.Exec("INSERT INTO evenement (titre, date, description) VALUES (?, ?, ?)", titre, date, description)
-	if err != nil {
-		return false
+				a := db.QueryRow("SELECT password FROM users WHERE email = ?", email)
+				var mdpStocke string
+				err := a.Scan(&storedPassword)
+				if err != nil || mdpStocke != mdp {
+					w.Write([]byte("Identifiants incorrects"))
+					return
+				}
+				w.Write([]byte("Connexion réussie"))
+			}
+		default:
+			http.NotFound(w, r)
+		}
 	}
-	return true
 }
 
 func main() {
