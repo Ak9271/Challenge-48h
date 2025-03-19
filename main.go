@@ -31,6 +31,7 @@ func creerDB() {
 		"email" TEXT,
 		"mdp" TEXT
 	);`
+
 	_, err = database.Exec(creerDB)
 	if err != nil {
 		return nil, err
@@ -71,6 +72,30 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tmpl.Execute(w, nil)
+}
+
+func soumettreSignupHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		nom := r.FormValue("nom")
+		email := r.FormValue("email")
+		mdp := r.FormValue("mdp")
+		hash, err := bcrypt.GenerateFromPassword([]byte(mdp), bcrypt.DefaultCost)
+		if err != nil {
+			http.Error(w, "Erreur lors du hash du mot de passe", http.StatusInternalServerError)
+			return
+		}
+
+		_, err = db.Exec("INSERT INTO users (nom, email, mdp) VALUES (?, ?, ?)", nom, email, hash)
+		if err != nil {
+			http.Error(w, "Erreur lors de l'inscription", http.StatusInternalServerError)
+			return
+		}
+
+		http.Redirect(w, r, "/login", http.StatusFound)
+	} else {
+		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+	}
 }
 
 
