@@ -7,14 +7,14 @@ body {
 }
 
 header {
-    background: #08c6db;
+    background: #77b67d;
     color: white;
     padding: 15px;
     font-size: 20px;
 }
 
 nav {
-    background: #064c85;
+    background: #477e5b;
     padding: 10px;
 }
 
@@ -35,7 +35,7 @@ nav a {
 }
 
 button {
-    background: #0873bf;
+    background: #477e5b;
     color: white;
     border: none;
     padding: 10px;
@@ -44,5 +44,74 @@ button {
 }
 
 button:hover {
+    background: #2c584c;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background: #446b4b;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button:hover {
     background: #005a42;
+}
+
+footer {
+    background: #477e5b;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 24px;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    color: #adbfaf;
 }
