@@ -18,13 +18,23 @@ nav {
     justify-content: center;
     gap: 20px;
     padding: 10px;
+    font-size: 20px;
 }
 
 nav a {
     display: inline-block;
+    align-items: center;
     color: white;
     padding: 14px 20px;
     text-decoration: none;
+}
+
+.nav-logo {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 nav a:hover {
