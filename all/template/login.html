@@ -15,13 +15,24 @@
         <a href="/contact">Support</a>
         <a href="/login">Connexion</a>
         <a href="/signup">Inscription</a>
-    </nav>
+    
+        {{if .isAuthenticated}}
+            <a href="/dashboard">Tableau de bord</a>
+            <a href="/logout">Déconnexion</a>
+        {{end}}
+    
+        <div id="user-info">
+            {{if .isAuthenticated}}
+                <p>Bienvenue, {{.Nom}}</p>
+            {{end}}
+        </div>
+    </nav>    
 
     <div class="container">
         <h2>Connexion</h2>
         <form id="formaulaire-connexion">
             <input type="email" id="email-connexion" placeholder="Email" required>
-            <input type="mdp" id="mdp-connexion" placeholder="Mot de passe" required>
+            <input type="password" id="mdp-connexion" placeholder="Mot de passe" required>
             <button type="submit">Se connecter</button>
         </form>
         <p id="login-message"></p>

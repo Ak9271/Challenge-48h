@@ -14,7 +14,19 @@
         <a href="/actualite">Événements</a>
         <a href="/contact">Support</a>
         <a href="/login">Connexion</a>
-    </nav>
+        <a href="/signup">Inscription</a>
+    
+        {{if .isAuthenticated}}
+            <a href="/dashboard">Tableau de bord</a>
+            <a href="/logout">Déconnexion</a>
+        {{end}}
+    
+        <div id="user-info">
+            {{if .isAuthenticated}}
+                <p>Bienvenue, {{.Nom}}</p>
+            {{end}}
+        </div>
+    </nav>    
 
     <div class="container">
         <h2>Événements à venir</h2>

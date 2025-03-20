@@ -15,7 +15,18 @@
         <a href="/contact">Support</a>
         <a href="/login">Connexion</a>
         <a href="/signup">Inscription</a>
-    </nav>
+    
+        {{if .isAuthenticated}}
+            <a href="/dashboard">Tableau de bord</a>
+            <a href="/logout">Déconnexion</a>
+        {{end}}
+    
+        <div id="user-info">
+            {{if .isAuthenticated}}
+                <p>Bienvenue, {{.Nom}}</p>
+            {{end}}
+        </div>
+    </nav>    
 
     <div class="container">
         <h2>Inscription</h2>

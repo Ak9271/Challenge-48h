@@ -7,34 +7,26 @@ document.getElementById('registerBtn').addEventListener('click', function() {
     alert('Inscription réussie!');
 });
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+document.getElementById('formaulaire-connexion').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const email = document.getElementById('email-connexion').value;
     const mdp = document.getElementById('mdp-connexion').value;
 
-    const data = {
-        email: email,
-        mdp: mdp
-    };
-
     fetch('/soumettre-login', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, mdp })
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.message); //Message de l'api
-        window.location.href = '/'; //Redirige vers la page d'accueil si la connexion est réussie
+        alert(data.message);
+        window.location.href = "/dashboard";
     })
-    .catch((error) => {
-        alert("Erreur lors de la connexion : " + error);
+    .catch(error => {
+        alert("Erreur de connexion : " + error);
     });
 });
-
 
 document.getElementById('signupForm').addEventListener('submit', function(event) {
     event.preventDefault();
