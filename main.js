@@ -41,7 +41,6 @@ const InfoUser = new mongoose.Schema({
     prenom: String,
     email: String,
     mdp: String,
-    dateDeNaissance: Number
 });
 
 const Client = mongoose.model('Clients', InfoUser, 'Clients');
