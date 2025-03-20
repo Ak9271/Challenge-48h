@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>Nos Actualités</header>
+    <header>
+        <h1>Nos Actualités</h1>
+    </header>
     <nav>
         <a href="accueil.html">Accueil</a>
         <a href="actualite.html">Actualités</a>
@@ -15,11 +17,108 @@
         <a href="login.html">Compte</a>
     </nav>
 
-    <div class="container">
-        <h2>Événements à venir</h2>
-        <ul id="event-list">
-        </ul>
+    <div class="btn-group">
+        <button id="btn-passes">Évènements passés</button>
+        <button id="btn-actuelles">Évènements actuels</button>
+        <button id="btn-futures">Évènements futurs</button>
     </div>
+ 
+
+    <main class="container">
+
+        <section id="section-passes" class="hidden">
+            <h2>Évènements passés</h2>
+
+            <div class="event">
+                <h3>Octobre 2024 :</h3>
+                <p>
+                ➔ Inscription des nouveaux membres.<BR>
+                ➔ Première Assemblée Générale (fin de mois)<BR>
+                ➔ Création de la page Instagram & début de la campagne de communication.<BR>
+                ➔ Lancement du Ydays « BDD »
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Novembre 2024 :</h3>
+                <p>
+                ➔ Lancement de la communication pour le défi « Sans livraison » durant le mois<BR>
+                ➔ 26 novembre : Défi « sans livraison »
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Décembre 2024 :</h3>
+                <p>
+                ➔ Le mois de la solidarité et du bénévolat : faire revenir l'AFEV Alter'actions
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Janvier 2025 :</h3>
+                <p>
+                ➔ 10 janvier : lancement de la com réguilière pour le concours « Elise »<BR>
+                ➔ 13 janvier : journée du Blue Monday
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Février 2025</h3>
+                <p>
+                ➔ Boursotroc
+                </p>
+            </div>
+        </section>
+        
+        
+        <section id="section-actuels" class="hidden">
+
+            <h2>Évènements actuels</h2>
+
+            <div class="event">
+                <h3>Mars 2025 :</h3>
+                <p>
+                ➔ 7 mars : fin de la réception des propositions pour le concours « Elise »<BR>
+                ➔ Sélection des vainqueurs entre le 10 et le 17 mars pour le concours « Elise »<BR>
+                ➔ 18 mars : annonce des 6 vainqueurs<BR>
+                ➔ 23 mars : journée mondiale de l'eau
+                </p>
+            </div>
+        </section>
+
+        <section id="section-futurs" class="hidden">
+            <h2>Évènements futurs</h2>
+
+            <div class="event">
+                <h3>Avril 2025 :</h3>
+                <p>
+                ➔ 22 avril : journée mondiale de la Terre
+                ➔ 30 avril : Ateliers « PMR » dans la Fika
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Mai 2025 :</h3>
+                <p>
+                ➔ 11 et 20 mai : journée mondiale des espères menacées et journée nationale de la biodiversité : gros dossier en préparation<BR>
+                ➔ 13 mai : journée du commerce équitable<BR>
+                ➔ 16 mai : journée internationale du vivre ensemble<BR>
+                ➔ 26 mai : installation de la boîte graduée pour mégots par filière<BR>
+                ➔ 31 mai : journée mondiale sans tabac
+                </p>
+            </div>
+
+            <div class="event">
+                <h3>Juin et juillet 2025 :</h3>
+                <p></p>
+            </div>
+        </section>
+
+        <p class="message" id="warning-message" style="display:none;">
+            Vous devez être connecté pour accéder à cette fonctionnalité.
+        </p>
+
+    </main>
 
     <script src="js/script.js"></script>
 </body>

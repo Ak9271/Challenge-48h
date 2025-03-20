@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>Contactez-nous</header>
+    <header><h1>Nous contactez</h1></header>
     <nav>
         <a href="accueil.html">Accueil</a>
         <a href="actualite.html">Actualités</a>
@@ -17,7 +17,12 @@
 
     <div class="container">
         <h2>Formulaire de contact</h2>
-        <form id="contact-form">
+        <div id="not-connected-message" style="display: none;">
+            <p>Vous devez être connecté pour poser une question.</p>
+            <a href="login.html">Se connecter</a>
+        </div>
+
+        <form id="contact-form" style="display:none;">
             <input type="text" id="name" placeholder="Nom" required>
             <input type="email" id="email" placeholder="Email" required>
             <textarea id="message" placeholder="Votre message" required></textarea>
@@ -27,5 +32,6 @@
     </div>
 
     <script src="js/script.js"></script>
+    
 </body>
 </html>

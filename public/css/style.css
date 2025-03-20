@@ -1,48 +1,101 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
-    background: #f4f4f4;
-    text-align: center;
 }
 
 header {
-    background: #08c6db;
+    background-color: #2e8b57;
     color: white;
-    padding: 15px;
-    font-size: 20px;
+    text-align: center;
+    padding: 20px 0;
 }
 
 nav {
-    background: #064c85;
-    padding: 10px;
+    background-color: #333;
+    text-align: center;
 }
 
 nav a {
+    display: inline-block;
     color: white;
+    padding: 14px 20px;
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
+}
+
+nav a:hover {
+    background-color: #555;
 }
 
 .container {
     max-width: 800px;
-    margin: 20px auto;
-    background: white;
+    margin: 30px auto;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
     border-radius: 8px;
 }
 
-button {
-    background: #0873bf;
-    color: white;
-    border: none;
+.event {
+    border: 1px solid #ccc;
     padding: 10px;
-    cursor: pointer;
-    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
-button:hover {
-    background: #005a42;
+button {
+    margin-right: 10px;
+    padding: 5px 10px;
+}
+
+.message {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    color: #2e8b57;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #333;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn-group {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.btn-group button {
+    margin: 0 10px;
+    padding: 10px 20;
+    cursor: pointer;
 }

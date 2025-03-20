@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestion des événements</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Page d'administration</h1>
+    </header>
+    
+    <nav>
+        <a href="accueil.html">Accueil</a>
+        <a href="actualite.html">Actualités</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Compte</a>
+    </nav>
+
+    <main class="container">
+
+        <section id="admin-section" class="hidden">
+            <h2>Ajouter un événement</h2>
+
+            <form id="add-event-form">
+                <label for="event-title">Titre :</label>
+                <input type="text" id="event-title" required><br>
+
+                <label for="event-date">Date :</label>
+                <input type="text" id="event-date" placeholder="Exemple : Octobre 2025" required><br>
+
+                <label for="event-category">Catégorie :</label>
+                <select id="event-category" required>
+                    <option value="passes">Passé</option>
+                    <option value="actuelles">Actuel</option>
+                    <option value="futurs">Futur</option>
+                </select><br>
+
+                <label for="event-description">Description :</label><br>
+                <textarea id="event-description" rows="5" required></textarea><br>
+
+                <button type="submit">Ajouter l'événement</button>
+            </form>
+        </section>
+
+    </main>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
