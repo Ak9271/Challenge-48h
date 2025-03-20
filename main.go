@@ -2,12 +2,12 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	_ "modernc.org/sqlite"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
+	"encoding/json"
 )
 
 type InfoUser struct {
@@ -72,52 +72,79 @@ func renderTemplate(filename string) http.HandlerFunc {
 }
 
 func soumettreSignupHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
-		return
-	}
+    if r.Method != http.MethodPost {
+        http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+        return
+    }
 
-	r.ParseForm()
-	nom := r.FormValue("nom")
-	email := r.FormValue("email")
-	mdp := r.FormValue("mdp")
-	hash, err := bcrypt.GenerateFromPassword([]byte(mdp), bcrypt.DefaultCost)
+    var user struct {
+        Nom     string `json:"nom"`
+        Email   string `json:"email"`
+        Mdp     string `json:"mdp"`
+    }
 
-	if err != nil {
-		http.Error(w, "Erreur lors du hash du mot de passe", http.StatusInternalServerError)
-		return
-	}
+    err := json.NewDecoder(r.Body).Decode(&user)
+    if err != nil {
+        http.Error(w, "Erreur lors de la lecture des données", http.StatusBadRequest)
+        return
+    }
 
-	_, err = db.Exec("INSERT INTO users (nom, email, mdp) VALUES (?, ?, ?)", nom, email, hash)
-	if err != nil {
-		http.Error(w, "Erreur lors de l'inscription", http.StatusInternalServerError)
-		return
-	}
-	http.Redirect(w, r, "/login", http.StatusFound)
+    var existingUser string
+    err = db.QueryRow("SELECT email FROM users WHERE email = ?", user.Email).Scan(&existingUser)
+    if err == nil {
+        http.Error(w, "Cet email est déjà utilisé", http.StatusConflict)
+        return
+    }
+
+    hash, err := bcrypt.GenerateFromPassword([]byte(user.Mdp), bcrypt.DefaultCost)
+    if err != nil {
+        http.Error(w, "Erreur lors du hash du mot de passe", http.StatusInternalServerError)
+        return
+    }
+
+    _, err = db.Exec("INSERT INTO users (nom, email, mdp) VALUES (?, ?, ?)", user.Nom, user.Email, hash)
+    if err != nil {
+        http.Error(w, "Erreur lors de l'inscription", http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"message": "Inscription réussie"})
 }
 
 func soumettreLoginHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
-		return
-	}
+    if r.Method != http.MethodPost {
+        http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+        return
+    }
 
-	r.ParseForm()
-	email := r.FormValue("email")
-	mdp := r.FormValue("mdp")
+    var user struct {
+        Email string `json:"email"`
+        Mdp   string `json:"mdp"`
+    }
 
-	var user InfoUser
-	err := db.QueryRow("SELECT id, nom, email, mdp FROM users WHERE email = ?", email).Scan(&user.ID, &user.Nom, &user.Email, &user.Mdp)
+    err := json.NewDecoder(r.Body).Decode(&user)
+    if err != nil {
+        http.Error(w, "Erreur lors de la lecture des données", http.StatusBadRequest)
+        return
+    }
 
-	if err != nil {
-		http.Error(w, "Utilisateur introuvable", http.StatusUnauthorized)
-		return
-	}
+    var dbUser InfoUser
+    err = db.QueryRow("SELECT id, nom, email, mdp FROM users WHERE email = ?", user.Email).Scan(&dbUser.ID, &dbUser.Nom, &dbUser.Email, &dbUser.Mdp)
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Mdp), []byte(mdp))
-	if err != nil {
-		http.Error(w, "Mot de passe incorrect", http.StatusUnauthorized)
-		return
-	}
-	fmt.Fprintf(w, "Bienvenue %s", user.Nom)
+    if err != nil {
+        http.Error(w, "Utilisateur introuvable", http.StatusUnauthorized)
+        return
+    }
+
+    err = bcrypt.CompareHashAndPassword([]byte(dbUser.Mdp), []byte(user.Mdp))
+    if err != nil {
+        http.Error(w, "Mot de passe incorrect", http.StatusUnauthorized)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"message": "Connexion réussie"})
 }

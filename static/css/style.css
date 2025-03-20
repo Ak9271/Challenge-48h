@@ -2,8 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #f4f4f4;
     text-align: center;
+    background: linear-gradient(to top left, #77b67d, white)
 }
 
 header {
