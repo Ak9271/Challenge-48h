@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
@@ -15,6 +15,9 @@ header {
 nav {
     background-color: #333;
     text-align: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
 }
 
 nav a {
@@ -26,6 +29,10 @@ nav a {
 
 nav a:hover {
     background-color: #555;
+}
+
+.title {
+    text-align: center;
 }
 
 .container {
