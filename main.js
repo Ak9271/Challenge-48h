@@ -33,6 +33,20 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-
+        const { email, mdp } = req.body;
+        const user = await User.findOne({ email, mdp });
+        if (user) {
+            res.status(200).json({
+                message: "Connexion réussie",
+                nom: user.nom,
+                email: user.email
+            });
+        } else {
+            res.status(401).json({ message: "Email ou mot de passe incorrect" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
+
+app.listen(8080, () => {console.log("Serveur démarré")});
