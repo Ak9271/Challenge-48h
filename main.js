@@ -1,45 +1,84 @@
-const mongoose = require('mongoose');
 const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
 const app = express();
 
-app.use(express.json())
-app.use(express.static('all'));
+app.use(express.json());
 
-mongoose.connect('mongo://localhost:27017/BaseDonnee')
-.then(() => {console.log("Connection à la base de données")})
-.catch((err) => {console.log("Erreur de connection", err)});
+app.use(express.static(path.join(__dirname, 'template')));
+app.use('/css',express.static(path.join(__dirname, 'css')));
+app.use('/js',express.static(path.join(__dirname, 'js')));
 
-const userInfo = new mongoose.Schema({
-    nom: String,
-    email: String,
-    mdp: String,
+const port = 8080;
+
+mongoose.connect('mongodb://localhost:27017/BaseDonnee')
+    .then(() => console.log("Connecté à la database"))
+    .catch(err => console.log("Erreur de connexion à la database", err));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const User = mongoose.model('Users', userInfo, 'Users');
+app.get('/actualite', (req, res) => {
+    res.sendFile(path.join(__dirname, 'actualite.html'));
+});
 
-app.post('/signup', async (req, res) => {
+app.get('/contact', (req, res) => {
+    res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'signup.html'));
+});
+
+
+const InfoUser = new mongoose.Schema({
+    nom: String,
+    prenom: String,
+    email: String,
+    mdp: String,
+    dateDeNaissance: Number
+});
+
+const Client = mongoose.model('Clients', InfoUser, 'Clients');
+
+app.post('/client', async (req, res) => {
     try {
-        const { nom, email, mdp } = req.body;
-        const user = new User({ nom, email, mdp });
-        await user.save();    
-        res.status(201).json({
-            message: "Inscription réussie",
-            user: { nom, email }
-        });
+        const client = new Client(req.body);
+        await client.save();
+        res.status(201).json(client);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
-app.post('/login', async (req, res) => {
+app.get('/client', async (req, res) => {
     try {
-        const { email, mdp } = req.body;
-        const user = await User.findOne({ email, mdp });
-        if (user) {
+        const clients = await Client.find();
+        res.json(clients);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.post('/connecter', async (req, res) => {
+    try {
+        const { connecteremail, connectermdp } = req.body;
+
+        const client = await Client.findOne({
+            email: connecteremail,
+            mdp: connectermdp
+        });
+
+        if (client) {
             res.status(200).json({
-                message: "Connexion réussie",
-                nom: user.nom,
-                email: user.email
+                nom: client.nom,
+                prenom: client.prenom,
+                email: client.email
             });
         } else {
             res.status(401).json({ message: "Email ou mot de passe incorrect" });
@@ -49,4 +88,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.listen(8080, () => {console.log("Serveur démarré")});
+app.listen(port, () => {
+    console.log(`Le serveur a demarrer sur http://localhost:${port}`);
+});
