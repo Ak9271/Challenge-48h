@@ -65,7 +65,7 @@ app.get('/client', async (req, res) => {
     }
 });
 
-app.post('/connecter', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
         const { connecteremail, connectermdp } = req.body;
 
